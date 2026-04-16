@@ -1,274 +1,292 @@
 ---
 name: repo-analyzer
-description: Use when the user mentions "分析项目"、"分析仓库"、"分析 GitHub"、"项目分析"、"源码分析"、"架构分析"、"代码分析"、"学习这个项目"、"研究这个框架"、"看看这个库怎么实现的"、"对比两个项目"、"项目评测"、"框架评测"
+description: Use when the user mentions "Analyze project", "Analyze repository", "Analyze GitHub", "Project analysis", "Source code analysis", "Architecture analysis", "Code analysis", "Learn this project", "Study this framework", "See how this library is implemented", "Compare two projects", "Project evaluation", "Framework evaluation"
 ---
 
-# Git 项目深度分析技能
+# Git Project Deep Analysis Skill
 
-深度分析开源项目并生成专业架构报告。报告是有深度洞察的技术研究，读完后读者能理解业务问题、掌握架构设计、产生自己的思考。
+Perform deep analysis of open-source projects and generate professional architecture reports. The report is a technical study with deep insights, allowing readers to understand business problems, master architectural design, and generate their own thoughts after reading.
 
 ## When to Use
 
-- 分析开源项目的架构和设计
-- 对比两个同类项目的设计差异
-- 深入研究一个框架或库的实现思路
+  - Analyzing the architecture and design of open-source projects.
+  - Comparing design differences between two similar projects.
+  - Deeply studying the implementation logic of a framework or library.
 
 ## When NOT to Use
 
-- 简单的代码问题或调试
-- 单文件分析或代码审查
-- 不涉及架构层面的代码修改
+  - Simple code issues or debugging.
+  - Single-file analysis or code review.
+  - Code modifications that do not involve architectural levels.
 
-## 输出语言
+## Output Language
 
-默认中文。如果用户使用其他语言提问，则跟随用户语言。
+Defaults to Chinese. If the user asks in another language, follow the user's language.
 
-## 核心原则
+## Core Principles
 
-### 1. 业务视角优先
+### 1. Business Perspective First
 
-从"这个项目解决什么问题"出发，不是"这个文件里有什么函数"。
+Start from "what problem does this project solve," not "what functions are in this file."
 
-| 不要 | 要 |
+| Don't | Do |
 |------|-----|
-| `handleRequest(ctx)` 函数接收一个 Context 参数... | 请求进来后，系统会经过鉴权、限流、路由分发三个阶段... |
-| `interface MessageQueue { push(); pop() }` | 模块间通过消息队列解耦，生产者只管投递，消费者按优先级拉取 |
+| The `handleRequest(ctx)` function receives a Context parameter... | After a request enters, the system goes through authentication, rate limiting, and routing stages... |
+| `interface MessageQueue { push(); pop() }` | Modules are decoupled via message queues; producers only handle delivery, and consumers pull by priority. |
 
-### 2. 抽象层次把控：不贴代码，讲设计
+### 2. Abstraction Level Control: Don't Paste Code, Explain Design
 
-默认在设计模式和架构层面描述，**非必要情况下不贴原始代码**。重点突出流程、逻辑、设计思想，用架构图（Mermaid）、流程图、表格来表达，而非代码片段。只有设计特别精妙、项目自创独特概念、或实现是核心卖点时才展示代码，且必须先用自然语言解释。
+By default, describe at the design pattern and architectural level; **do not paste original code unless necessary**. Focus on highlighting processes, logic, and design ideas using architecture diagrams (Mermaid), flowcharts, and tables instead of code snippets. Show code only when the design is particularly subtle, the project creates unique concepts, or the implementation is a core selling point—and it must be explained in natural language first.
 
-### 3. 全局关联
+### 3. Global Correlation
 
-每个局部分析都必须连接到项目整体设计哲学——这是区分"代码说明书"和"架构分析"的关键。详见 [analysis-guide.md](references/analysis-guide.md) 的全局关联章节。
+Every local analysis must connect to the overall design philosophy of the project—this is the key distinction between a "code manual" and an "architectural analysis." See the Global Correlation chapter in [analysis-guide.md](references/analysis-guide.md).
 
-### 4. 启发性写作
+### 4. Inspiring Writing
 
-目标是让读者**学到东西、产生思考**，而不是获得一份代码说明书。像资深工程师在白板前讲解——有观点、有推理、有对比。详见 [analysis-guide.md](references/analysis-guide.md) 的启发性写作章节。
+The goal is to let the reader **learn something and generate thought**, not to provide a code instruction manual. Like a senior engineer explaining at a whiteboard—possessing viewpoints, reasoning, and comparisons. See the Inspiring Writing chapter in [analysis-guide.md](references/analysis-guide.md).
 
-### 5. 深度洞察：Why > What（强制）
+### 5. Deep Insight: Why > What (Mandatory)
 
-每个设计决策必须解释动机、权衡、替代方案代价。描述"是什么"只是起点，解释"为什么"才是分析的价值所在。每个核心模块和整体架构都要回答：
-- **为什么这样设计？** 不只是"用了什么模式"，而是"为什么适合这个场景"
-- **如果不这样会怎样？** 替代方案的代价
-- **与业界最佳实践的差距？** 领先之处和改进空间
-- **如果让你重新设计？** 展示更深层理解
-- **系统性设计哲学？** 贯穿整个项目的风格（如"约定优于配置"、"零成本抽象"）
+Every design decision must explain the motivation, trade-offs, and cost of alternatives. Describing "what it is" is just the starting point; explaining "why" is where the value of the analysis lies. Every core module and the overall architecture must answer:
 
-示例：
-> ❌ 路由系统采用了中间件模式，支持链式调用。
+  - **Why was it designed this way?** Not just "what pattern was used," but "why is it suitable for this scenario."
+  - **What happens if it's not done this way?** The cost of alternative solutions.
+  - **The gap with industry best practices?** Areas of leadership and room for improvement.
+  - **What if you were to redesign it?** Demonstrate deeper understanding.
+  - **Systemic design philosophy?** The style that permeates the entire project (e.g., "convention over configuration," "zero-cost abstraction").
+
+Example:
+
+> ❌ The routing system adopts a middleware pattern, supporting chain calls.
 >
-> ✅ 路由系统选择了洋葱模型而非线性管道。线性管道实现更简单，但洋葱模型让每个中间件都能同时处理请求和响应阶段——这对日志、计时、错误恢复至关重要。Express 当年选择线性模型，后来不得不用各种 hack 处理响应后逻辑，Koa 吸取教训才转向洋葱模型。如果让我重新设计，我会考虑加入中间件依赖声明，让框架自动排序——这是 Fastify 的做法，能避免顺序导致的隐蔽 bug。
+> ✅ The routing system chose an onion model instead of a linear pipeline. A linear pipeline is simpler to implement, but the onion model allows every middleware to handle both request and response phases—this is crucial for logging, timing, and error recovery. Express chose the linear model back then and later had to use various hacks to handle post-response logic; Koa learned from this and shifted to the onion model. If I were to redesign it, I would consider adding middleware dependency declarations to let the framework sort them automatically—this is Fastify's approach, which avoids hidden bugs caused by ordering.
 
-### 补充要求
+### Additional Requirements
 
-- **代码为准** — 一切结论有代码依据，标注 `文件路径` 或 `文件路径:行号范围`，禁止模糊表述
-- **有温度** — 像资深工程师给新同事做 onboarding，加入主观评价和建议，避免 AI 味套话
-- **重点深入次要简略** — 核心创新点深入分析，通用工具函数一句话带过
-- **批判性思考** — 与业界实践对比，指出真实问题，不回避缺陷。参考 [analysis-guide.md](references/analysis-guide.md)
-- **行文流畅易懂** — 整体行文需要流畅自然，让入门的工程师也能看懂并学习到东西。避免过于学术化或堆砌术语
-- **拒绝流水账** — 每个模块要体现深度细节，不能一句带过或泛泛而谈。每个模块如果合适要加上对应的 Mermaid 架构图，让读者看完有启发、能学到设计精髓
+  - **Code-Based** — All conclusions must have code evidence, marking `file path` or `file path:line range`; avoid vague statements.
+  - **With Warmth** — Like a senior engineer onboarding a new colleague, include subjective evaluations and suggestions; avoid AI-style clichés.
+  - **Deeply Analyze the Core, Briefly Mention the Secondary** — Deeply analyze core innovations; mention general utility functions in a single sentence.
+  - **Critical Thinking** — Compare with industry practices, point out real problems, and do not avoid defects. Refer to [analysis-guide.md](references/analysis-guide.md).
+  - **Fluent and Accessible** — The overall writing must be natural and fluent, allowing entry-level engineers to understand and learn. Avoid being overly academic or piling up jargon.
+  - **Refuse Superficiality** — Every module must reflect deep details and cannot be glazed over or discussed in generalities. Every module should include a corresponding Mermaid architecture diagram where appropriate, ensuring the reader is inspired and learns the essence of the design.
 
-## 分析工作流
+## Analysis Workflow
 
-**灵活性原则**：以下所有阶段和章节都是建议性的指引，不是必须严格执行的清单。agent 应根据当前分析的项目特性动态决策——如果某个阶段或环节对当前项目没有意义，可以跳过或简化。一切以最终报告的质量为准。
+**Flexibility Principle**: All phases and chapters below are suggestive guidelines, not a checklist to be strictly followed. The agent should make dynamic decisions based on the characteristics of the project being analyzed—if a phase or link makes no sense for the current project, it can be skipped or simplified. Everything is subject to the quality of the final report.
 
-### 阶段 1: 项目获取与初始化
+### Phase 1: Project Retrieval and Initialization
 
-1. 解析用户输入（支持 `owner/repo`、GitHub/GitLab/Gitee URL、本地路径、项目名称）
-2. 创建工作区：在用户主目录下创建 `repo-analyses/${REPO_NAME}-{YYYYMMDD}` 目录作为 `$WORK_DIR`（跨平台：macOS/Linux 使用 `$HOME`，Windows 使用 `$USERPROFILE` 或 `$HOME`）
-3. 如果用户提供本地路径则跳过 clone，否则 `git clone --depth=1` 克隆仓库
-4. 获取基本元数据（Star、Fork、贡献者、代码统计）
+1.  Parse user input (supports `owner/repo`, GitHub/GitLab/Gitee URL, local path, project name).
+2.  Create workspace: Create a `${REPO_NAME}-{YYYYMMDD}` directory under the user's home directory as `$WORK_DIR` (Cross-platform: macOS/Linux uses `$HOME`, Windows uses `$USERPROFILE` or `$HOME`).
+3.  If the user provides a local path, skip clone; otherwise, `git clone --depth=1`.
+4.  Get basic metadata (Stars, Forks, contributors, code statistics).
 
-### 阶段 2: 项目规模评估与分析模式选择
+### Phase 2: Project Scale Assessment and Analysis Mode Selection
 
-1. **统计有效代码行数**（排除可跳过代码），按模块列出分布
-   - 可跳过代码定义：测试代码、构建/部署配置（Dockerfile、CI yaml 等）、自动生成代码（protobuf 生成、lock 文件等）、示例/文档代码
-   - 使用 `find` + `wc -l` 或 `cloc` 等工具统计，按顶层目录分组
-2. **向用户报告代码规模**，使用 AskUserQuestion 让用户选择分析模式：
+1.  **Count effective lines of code** (exclude skippable code), listing distribution by module.
+      - Skippable code definition: Test code, build/deployment configs (Dockerfile, CI yaml, etc.), auto-generated code (protobuf generated, lock files, etc.), example/documentation code.
+      - Use tools like `find` + `wc -l` or `cloc` to count, grouped by top-level directories.
+2.  **Report code scale to the user**, using AskUserQuestion to let the user choose an analysis mode:
 
-| 模式 | 核心模块覆盖率 | 次要模块覆盖率 | 适用场景 |
+| Mode | Core Module Coverage | Secondary Module Coverage | Applicable Scenario |
 |------|-------------|-------------|---------|
-| 快速分析 | ≥30% | ≥10% | 快速了解项目全貌 |
-| 标准分析（推荐） | ≥60% | ≥30% | 常规架构分析 |
-| 深度分析 | ≥90% | ≥60% | 深入研究每个设计决策 |
+| Fast Analysis | ≥30% | ≥10% | Quickly understand the project overview |
+| Standard Analysis (Recommended) | ≥60% | ≥30% | Conventional architecture analysis |
+| Deep Analysis | ≥90% | ≥60% | In-depth study of every design decision |
 
-3. 将代码规模统计和用户选择的分析模式写入 `drafts/03-plan.md`，后续阶段据此控制分析深度
+3.  Write code scale statistics and the user's chosen mode to `drafts/03-plan.md`; subsequent phases will control depth accordingly.
 
-**覆盖率计算规则**：
-- 覆盖率 = 通过 Read 工具实际请求过的行范围之并集 / 文件总行数
-- 对于大文件（>500 行），必须分段读取，确保以下关键段落被覆盖：
-  - 文件头部的类型定义和导入（前 100 行）
-  - 核心业务逻辑函数（通过目录结构或函数名定位）
-  - 文件尾部的测试代码（如有）
-- 只读了文件的一小部分（<30%）不计入覆盖率，视为「未读」
-- 自动生成代码（proto 生成、lock 文件等）可降低覆盖率要求：扫描结构即可，不需要逐行阅读
+**Coverage Calculation Rules**:
 
-### 阶段 3: 外部调研 + 项目文档研读（先搜再读）
+  - Coverage = Union of line ranges actually requested via the Read tool / Total file lines.
+  - For large files (>500 lines), you must read in segments to ensure key sections are covered:
+      - Type definitions and imports at the top (first 100 lines).
+      - Core business logic functions (located via directory structure or function names).
+      - Test code at the end (if any).
+  - Reading only a small part (<30%) does not count toward coverage; it is considered "unread."
+  - For auto-generated code, coverage requirements can be lowered: scan the structure without needing to read line-by-line.
 
-1. WebSearch 搜索项目评价、对比、架构讨论（至少 3-5 次搜索）
-2. **遍历项目官网**（如果存在）：
-   - 从 README 或 GitHub 页面提取官网 URL
-   - 使用 WebFetch/tavily_crawl 遍历官网关键页面（首页、Features、Use Cases、Comparison、Blog 等）
-   - 重点提取：产品定位语（tagline）、典型使用场景、官方竞品对比、用户案例/testimonial
-   - 官网内容往往是理解"为什么需要这个产品"的最佳来源，比代码和技术文档更直接
-3. **通读项目自带文档**：
-   - 架构文档（`architecture/`、`docs/`、`design/` 等目录）
-   - CONTRIBUTING.md、AGENTS.md 等开发者指引
-   - RFC、ADR（Architecture Decision Records）、设计提案等
-   - 这些文档往往包含开发者的设计思路、权衡取舍、历史决策背景，是理解"为什么这样设计"的第一手资料
-   - 将文档中的关键设计决策和思路摘录到调研笔记中
-4. 整理调研发现写入 `drafts/03-research.md`，必须包含以下结构化段落（信息不足则标注"未找到"）：
-   - **项目解决的核心问题**：用 1-3 个具体场景描述痛点（谁、在什么情况下、遇到什么问题、现有方案为什么不够）
-   - **竞品/同类项目对比**：列出 3-5 个最相关的竞品，说明各自定位差异和技术路线差异
-   - **为什么需要单独做这个项目**：不能用现有方案组合解决吗？这个项目的独特价值主张是什么？
-   - **项目背后的组织动机**（如适用）：商业公司的战略考量、开源社区的生态定位
-5. 生成分析规划写入 `drafts/03-plan.md`
+### Phase 3: External Research + Project Document Reading (Search First, Read Later)
 
-### 阶段 4: 项目特征识别 + 自适应提问
+1.  WebSearch for project reviews, comparisons, and architecture discussions (at least 3-5 searches).
+2.  **Browse the project's official website** (if it exists):
+      - Extract the official URL from README or GitHub.
+      - Use WebFetch/tavily_crawl to traverse key pages (Home, Features, Use Cases, Comparison, Blog, etc.).
+      - Focus on extracting: Product tagline, typical usage scenarios, official competitor comparisons, user cases/testimonials.
+      - Website content is often the best source for understanding "why this product is needed," being more direct than code or technical docs.
+3.  **Thoroughly read project-provided documentation**:
+      - Architecture docs (directories like `architecture/`, `docs/`, `design/`).
+      - Developer guides like CONTRIBUTING.md, AGENTS.md.
+      - RFCs, ADRs (Architecture Decision Records), design proposals, etc.
+      - These documents often contain the developers' design logic, trade-offs, and historical decision context, serving as primary material for understanding "why it was designed this way."
+      - Extract key design decisions and ideas into research notes.
+4.  Organize research findings into `drafts/03-research.md`, which must include the following structured paragraphs (mark as "not found" if information is insufficient):
+      - **Core Problems Solved**: Use 1-3 specific scenarios to describe pain points (who, in what situation, what problem, why current solutions are insufficient).
+      - **Competitor/Similar Project Comparison**: List 3-5 most relevant competitors, explaining differences in positioning and technical routes.
+      - **Why a Separate Project is Needed**: Why can't it be solved by existing combinations? What is the project's unique value proposition?
+      - **Organizational Motivation Behind the Project** (if applicable): Commercial strategy considerations, open-source community ecosystem positioning.
+5.  Generate an analysis plan in `drafts/03-plan.md`.
 
-这是核心阶段。不使用固定问题列表，而是根据项目特征生成针对性问题。
+### Phase 4: Project Feature Identification + Adaptive Questioning
 
-**步骤：**
+This is the core phase. Instead of a fixed question list, generate targeted questions based on project characteristics.
 
-1. **快速扫描**：扫描入口文件、目录结构、依赖声明、项目文档、README
-2. **识别项目核心特征**：
-   - 项目类型与定位（库/框架/应用/工具）
-   - 规模与成熟度
-   - 设计风格信号（类型体操、极简 API、配置驱动等）
-   - 技术栈特点（新兴技术、多语言、特定运行时）
-   - 社区定位（核心基础设施、应用层工具、教学项目等）
-3. **从特征中提炼问题**：根据观察到的项目特征生成针对性问题。问题应该帮助聚焦分析方向，而不是走流程
+**Steps:**
 
-   **思维过程**——每个观察都可能暗示一个值得问用户的问题：
-   - 观察到的技术选择 → 问动机（不常见的技术组合？自己实现了通常用第三方库解决的功能？）
-   - 观察到的架构特征 → 问优先级（性能优化痕迹？复杂的插件/扩展系统？）
-   - 观察到的设计张力 → 问取舍（简单性 vs 灵活性？向后兼容的包袱？）
-   - 观察到的项目定位 → 问受众（目标用户是谁？在生态中是替代还是填补空白？）
+1.  **Quick Scan**: Scan entry files, directory structure, dependency declarations, project docs, and README.
 
-   **维度启发**——什么样的项目特征暗示什么样的分析角度：
-   - 小而精的库 → API 设计哲学、边界划定；大型框架 → 模块化策略、向后兼容、生态治理
-   - 使用新兴技术 → 为什么选择它、迁移成本；多语言/多范式 → 语言边界设计
-   - 大量泛型/类型体操 → 类型安全 vs 复杂度权衡；极简 API → 简单性如何实现、牺牲了什么
+2.  **Identify Core Project Features**:
 
-   **好问题的特征**：具体（基于代码中观察到的现象）、有分析价值（答案会影响分析方向）、用户能答（问关注点和偏好，不问需要深入代码才能回答的技术细节）、不重复（不问通过代码就能回答的问题）
-4. **向用户提问**：使用 AskUserQuestion 工具向用户提问，每次不超过 3 个问题
-   - 其中一个问题应确认**报告开头的详略程度**：对于知名项目，用户可能不需要冗长的产品介绍和竞品对比，只想直接进入代码分析。询问用户是否需要场景化引入和竞品定位章节，还是直接从项目全景和代码分析开始
-5. **不限轮次**：可多轮提问直到方向明确，分析过程中发现新的关键分歧点可以再追问
+      - Project type and positioning (library/framework/app/tool).
+      - Scale and maturity.
+      - Design style signals (type gymnastics, minimalist APIs, configuration-driven, etc.).
+      - Tech stack characteristics (emerging technologies, multi-language, specific runtime).
+      - Community positioning (core infrastructure, application-layer tool, educational project, etc.).
 
-**关键原则**：问题完全由项目特征驱动，不预设类别。不同项目应该产生完全不同的问题。
+3.  **Extract Questions from Features**: Generate targeted questions based on observed project features. Questions should help focus the analysis direction rather than just going through the motions.
 
-### 阶段 5: 动态报告结构设计
+    **Thought Process**—Each observation may hint at a question worth asking:
 
-根据用户回答 + 项目特征，设计本次报告的章节结构。
+      - Observed technical choices → Ask about motivation (uncommon tech combinations? implemented a feature manually that is usually solved by a 3rd-party library?).
+      - Observed architectural features → Ask about priority (traces of performance optimization? complex plugin/extension systems?).
+      - Observed design tension → Ask about trade-offs (simplicity vs. flexibility? burden of backward compatibility?).
+      - Observed project positioning → Ask about the audience (who is the target user? does it replace or fill a gap in the ecosystem?).
 
-**步骤：**
+    **Dimensional Inspiration**—What features suggest what analysis angles:
 
-1. **综合信息**：结合阶段 3 的调研、阶段 4 的项目特征和用户回答
-2. **设计章节结构**：不使用固定模板，但必须满足骨架约束（见下方）
-3. **输出报告大纲**：将设计好的报告大纲输出给用户确认后再继续
-4. **识别模块**：追踪核心数据流，识别 N 个逻辑模块（按业务功能划分），分为核心模块和次要模块
-5. **设计模块叙事线**：确定模块在报告中的呈现顺序和过渡逻辑，不按目录结构排列，而是按读者理解的最佳路径组织：
-   - 选择叙事主线：数据流驱动（请求从进入到离开经过哪些模块）、分层驱动（从底层到上层）、或问题驱动（从核心问题到解决方案逐层展开）
-   - 每两个相邻模块之间写明过渡逻辑：上一个模块的输出/问题/局限 → 引出下一个模块的必要性
-   - 将叙事线写入 `drafts/05-modules-plan.md`，格式示例：模块 A →[A 的输出需要 B 来消费]→ 模块 B →[B 解决了 X 但引出 Y 问题]→ 模块 C
-6. **写入计划**：输出模块清单和报告大纲写入 `drafts/05-modules-plan.md`
+      - Small and precise libraries → API design philosophy, boundary setting; large frameworks → modularization strategy, backward compatibility, ecosystem governance.
+      - Use of emerging tech → Why was it chosen, migration cost; multi-language/multi-paradigm → language boundary design.
+      - Large amount of generics/type gymnastics → Type safety vs. complexity trade-off; minimalist API → how simplicity is achieved, what was sacrificed.
 
-**骨架约束**（报告不规定具体章节，但必须满足）：
-- 有**场景化问题引入**（用具体场景讲清楚项目解决什么问题、现有方案的不足、为什么需要这个项目——素材来自阶段 3 调研笔记）。**注意**：如果用户在阶段 4 表示不需要冗长介绍（如项目已经很知名），可以精简或跳过此章节，直接从项目全景开始
-- 有**竞品定位**（与同类项目的关键差异，不是功能清单对比，而是设计哲学和技术路线的差异）。**注意**：同上，用户可选择跳过
-- 有**项目全景**（让读者快速理解项目是什么、解决什么问题）
-- 有**深度分析**（核心设计的 Why、权衡、与业界对比）
-- 有**评价与启发**（诚实的优缺点、读者能从中学到什么）
-- 有**架构可视化**（Mermaid 图表）
-- 所有结论有代码依据
+    **Characteristics of a Good Question**: Specific (based on observed phenomena), analytically valuable (answer affects analysis direction), answerable by the user (asks about focus and preference, not technical details requiring deep code dives), non-repetitive (doesn't ask what can be answered via code).
 
-### 阶段 6: 并行深度分析（subagent 团队）
+4.  **Ask the User**: Use AskUserQuestion to prompt the user, with no more than 3 questions at a time.
 
-必须使用 Agent 工具并行启动 subagent。参考 [module-analysis-guide.md](references/module-analysis-guide.md) 中的 prompt 模板和协作规范。
+      - One question should confirm **the level of detail for the report opening**: For well-known projects, users may not need lengthy introductions or competitor comparisons and want to dive straight into code analysis. Ask the user if they need scenario-based intros and competitor positioning or if they want to start directly with the project overview and code analysis.
 
-每个 subagent 的 prompt 中必须包含项目整体设计哲学和全局视角要求，确保模块分析不是孤立的。
+5.  **Unlimited Rounds**: Multiple rounds of questions can be used until the direction is clear; follow up if new key points of contention are discovered during analysis.
 
-每个 subagent 的 prompt 中还必须包含该模块的叙事上下文（来自阶段 5 的叙事线设计）：前一个模块讲了什么、读者带着什么问题进入本模块、本模块需要为下一个模块铺垫什么。subagent 应在草稿开头用 1-2 句衔接前一模块，草稿结尾用 1 句铺垫下一模块。
+**Key Principle**: Questions are driven entirely by project characteristics, not preset categories. Different projects should generate completely different questions.
 
-每个 subagent 的 prompt 末尾必须附加覆盖率要求（参考 module-analysis-guide.md 中的覆盖率要求段落），告知当前分析模式和最低覆盖率目标，要求草稿末尾附覆盖率明细表。
+### Phase 5: Dynamic Report Structure Design
 
-**subagent 写入策略**：
-对于大模块（文件总行数 > 5000 行），必须在 subagent prompt 中要求增量写入草稿：
-- 每完成一个子系统/子模块的分析后，立即将该部分写入草稿文件
-- 第一个子系统用 Write 创建文件，后续子系统用 Edit 追加
-- 不要等全部文件读完再一次性写入
-- 覆盖率明细表在最后追加
+Design the chapter structure for this report based on user answers + project characteristics.
 
-**主 agent 等待纪律**：
-- subagent 启动后，主 agent 不得阅读 subagent 负责的源码文件
-- 主 agent 在等待期间应专注于：阅读项目文档（architecture/、docs/）、外部调研、设计报告骨架、准备阶段 8 的融合框架
-- 判断 subagent 是否卡住的标准：output 文件超过 5 分钟无新增行。只有确认卡住后，主 agent 才可以接管该模块的分析
-- **严禁提前合并**：必须等所有 subagent 全部完成后，再开始阶段 7 和阶段 8 的合并工作。不要在部分 subagent 还在运行时就开始写最终报告
+**Steps:**
 
-### 阶段 7: 交叉验证 + 质量管控（主 agent）
+1.  **Synthesize Information**: Combine Phase 3 research, Phase 4 features, and user answers.
+2.  **Design Chapter Structure**: Do not use a fixed template, but it must satisfy the skeleton constraints (see below).
+3.  **Output Report Outline**: Output the designed report outline for user confirmation before proceeding.
+4.  **Identify Modules**: Track core data flows and identify N logical modules (divided by business functionality), categorized into core and secondary modules.
+5.  **Design Module Narrative Line**: Determine the sequence and transition logic for modules in the report, organizing by the best path for reader understanding rather than directory structure:
+      - Choose a narrative mainline: Data-flow driven (stages a request passes through), layer-driven (bottom to top), or problem-driven (core problem to solution layers).
+      - Write transition logic between adjacent modules: Output/problem/limitation of the previous module → why the next module is necessary.
+      - Write the narrative line to `drafts/05-modules-plan.md`. Format example: Module A → [A's output is consumed by B] → Module B → [B solves X but introduces Y] → Module C.
+6.  **Write Plan**: Output the module list and report outline to `drafts/05-modules-plan.md`.
 
-**7.1 覆盖率门控**：
-1. 读取每个 `drafts/06-module-*.md` 末尾的覆盖率明细表
-2. 快速检查：每个草稿末尾是否有覆盖率表、合计行是否标注达标（✅/❌）
-3. 只有标注 ❌ 或缺少覆盖率表的模块才需要深入检查
-4. 不达标模块 → 主 agent 自动补充阅读未覆盖的关键文件，将补充发现追加到对应草稿
-5. 补充后仍不达标 → 向用户报告哪些模块未达标及原因（如文件过大、二进制文件等）
+**Skeleton Constraints** (The report doesn't mandate specific chapters but must satisfy):
 
-**7.2 抽查验证**：
-1. 从每个核心模块草稿中选取 2-3 个关键结论
-2. 回到源码逐行验证结论准确性
-3. 发现偏差则修正草稿中的对应内容
+  - Has **Scenario-based Problem Introduction** (Explain the problem solved, inadequacies of existing solutions, and why the project is needed—sourced from Phase 3 notes). **Note**: If the user indicates in Phase 4 that a long intro is unnecessary (e.g., project is well-known), this can be condensed or skipped.
+  - Has **Competitor Positioning** (Key differences from similar projects, focusing on design philosophy and tech route differences rather than feature lists). **Note**: Same as above, optional per user.
+  - Has **Project Overview** (Allow the reader to quickly understand what the project is and its purpose).
+  - Has **Deep Analysis** (Why of core designs, trade-offs, and comparison with industry).
+  - Has **Evaluation and Inspiration** (Honest pros and cons, what readers can learn).
+  - Has **Architectural Visualization** (Mermaid charts).
+  - All conclusions have code evidence.
 
-**7.3 交叉验证**：
-1. 交叉验证【待主 agent 验证】标注的跨模块结论
-2. 综合回答探索问题，识别跨模块设计模式
-3. 验证全局关联：每个模块的分析是否都连接到了项目整体设计哲学
-4. 写入 `drafts/07-cross-validation.md`
+### Phase 6: Parallel Deep Analysis (Subagent Team)
 
-### 阶段 8: 多源融合与最终报告（主 agent）
+Must use Agent tools to launch subagents in parallel. Refer to the prompt template and collaboration standards in [module-analysis-guide.md](references/module-analysis-guide.md).
 
-1. 提炼架构洞察和系统性设计哲学
-2. 基于阶段 3 调研结果深化竞品对比（仅在阶段 3 信息不足时补充搜索）
-3. 提出"如果重新设计"的改进建议
-4. 写入 `drafts/08-insights.md`
-5. **多源融合**：以阶段 5 设计的报告章节结构为骨架，从各草稿中抽取内容填充。同一概念在多个草稿中出现时，取最详细版本并补充其他版本独有信息。融合后消除所有"见草稿 X"、"详见附录"等跳转指示
-   - **叙事连贯**：按阶段 5 设计的叙事线组织模块章节。每个模块章节的开头必须有 1-2 句过渡，连接上一个模块的结论或问题。避免"接下来我们分析 X 模块"这种生硬转折，改用自然过渡（如"Gateway 完成了请求的认证和路由，但它只负责'谁可以进来'，不负责'进来之后能做什么'。这个行为控制的职责，由策略引擎承担。"）
-6. **分段写入**：最终报告通常超过 500 行，先 Write 前几个章节（200-300 行），后续用 Edit 追加，每次追加前 Read 确认末尾位置
-7. **覆盖率汇总**：将覆盖率数据汇总写入 `drafts/08-coverage.md`（不放入最终报告）
-   - 数据直接从各 subagent 草稿末尾的覆盖率明细表中提取，不需要主 agent 重新计算
-   - 如果主 agent 在阶段 7 补充了阅读，将补充的行数加到对应模块的「已读行数」中
-   - 汇总表格式：
+Every subagent prompt must include the project's overall design philosophy and global perspective requirements to ensure module analysis is not isolated.
 
-| 模块 | 类型 | 文件数 | 有效代码行 | 已读行数 | 覆盖率 | 达标 |
+Every subagent prompt must also include the narrative context for that module (from Phase 5): what the previous module covered, what questions the reader brings in, and what this module sets up for the next. The subagent should use 1-2 sentences at the start to transition from the previous module and 1 sentence at the end to set up the next.
+
+Every subagent prompt must attach coverage requirements (refer to [module-analysis-guide.md](references/module-analysis-guide.md)), informing them of the analysis mode and minimum coverage target, and requiring a coverage breakdown table at the end of the draft.
+
+**Subagent Writing Strategy**:
+For large modules (>5000 lines), require incremental draft writing in the subagent prompt:
+
+  - Write the analysis of a subsystem/sub-module immediately upon completion.
+  - Use Write for the first part and Edit to append subsequent parts.
+  - Do not wait to finish all files before writing.
+  - Append the coverage breakdown at the end.
+
+**Main Agent Waiting Discipline**:
+
+  - After subagents start, the main agent must not read the source files they are responsible for.
+  - During waiting, the main agent should focus on: reading project docs, external research, designing report skeleton, and preparing the Phase 8 fusion framework.
+  - Standard for a stuck subagent: Output file has no new lines for over 5 minutes. Only then can the main agent take over.
+  - **Premature merging is strictly forbidden**: Wait for all subagents to finish before starting Phase 7 and 8. Do not start the final report while subagents are running.
+
+### Phase 7: Cross-Validation + Quality Control (Main Agent)
+
+**7.1 Coverage Gate**:
+
+1.  Read the coverage breakdown at the end of each `drafts/06-module-*.md`.
+2.  Quick check: Does every draft have a table? Is the total row marked as passed (✅/❌)?
+3.  Only modules marked ❌ or missing a table require deep checking.
+4.  Non-compliant modules → Main agent automatically reads unvisited key files and appends findings to the draft.
+5.  If still not met → Report to the user which modules failed and why (e.g., file too large, binary files).
+
+**7.2 Spot-Check Verification**:
+
+1.  Select 2-3 key conclusions from each core module draft.
+2.  Go back to the source code to verify accuracy line-by-line.
+3.  Correct the draft if deviations are found.
+
+**7.3 Cross-Validation**:
+
+1.  Cross-validate conclusions marked [To be verified by main agent].
+2.  Synthesize answers to exploration questions and identify cross-module patterns.
+3.  Verify global correlation: Does every module analysis connect to the overall design philosophy?
+4.  Write to `drafts/07-cross-validation.md`.
+
+### Phase 8: Multi-Source Fusion and Final Report (Main Agent)
+
+1.  Extract architectural insights and systemic design philosophy.
+2.  Deepen competitor comparison based on Phase 3 research (supplement with search only if info was insufficient).
+3.  Propose "what if redesigned" improvements.
+4.  Write to `drafts/08-insights.md`.
+5.  **Multi-Source Fusion**: Use the Phase 5 report structure as a skeleton and fill it with content from various drafts. If the same concept appears in multiple drafts, use the most detailed version and supplement unique info from others. After fusion, eliminate all "see draft X" or "refer to appendix" instructions.
+      - **Narrative Continuity**: Organize modules according to the Phase 5 narrative line. Each module chapter start must have 1-2 transition sentences connecting from the previous module's conclusion. Avoid stiff transitions like "Next, we analyze X"; use natural transitions instead.
+6.  **Segmented Writing**: Final reports usually exceed 500 lines. Write the first few chapters (200-300 lines) first, then use Edit to append, confirming the end position with Read before each append.
+7.  **Coverage Summary**: Summarize coverage data into `drafts/08-coverage.md` (Do not include in final report).
+      - Extract data directly from subagent drafts; the main agent doesn't need to re-calculate.
+      - If the main agent supplemented reading in Phase 7, add those lines to the "Read Lines" of the corresponding module.
+      - Summary table format:
+
+| Module | Type | File Count | Effective LOC | Lines Read | Coverage | Passed |
 |------|------|--------|-----------|---------|--------|------|
-| ... | 核心/次要 | ... | ... | ... | ...% | ✅/❌ |
+| ... | Core/Secondary | ... | ... | ... | ...% | ✅/❌ |
 
-8. 汇总生成最终报告（不包含覆盖率章节）
+8.  Compile final report (excluding coverage section).
 
-### 草稿文件清单
+### Draft File List
 
-所有中间过程保存到 `$WORK_DIR/drafts/`：
+Save all intermediate processes to `$WORK_DIR/drafts/`:
 
-| 阶段 | 文件 |
+| Phase | File |
 |------|------|
 | 3 | `03-research.md`, `03-plan.md` |
 | 5 | `05-modules-plan.md` |
-| 6 | `06-module-{name}.md`（subagent 生成） |
+| 6 | `06-module-{name}.md` (Generated by subagent) |
 | 7 | `07-cross-validation.md` |
 | 8 | `08-insights.md`, `08-coverage.md` |
 
-文件写入分块，单次不超过 300 行或 15KB。
+Write files in chunks, not exceeding 300 lines or 15KB per write.
 
-## 特殊场景
+## Special Scenarios
 
-- **超大型项目（>50000 行）**：优先分析核心模块，使用 Agent 并行分析
-- **对比分析模式**：两个项目分别完成阶段 1-4，然后在阶段 5 设计对比式报告结构，骨架约束中增加"设计决策对比"和"选型建议"
+  - **Ultra-Large Projects (>50,000 lines)**: Prioritize core modules, using Agent for parallel analysis.
+  - **Comparative Analysis Mode**: Complete Phases 1-4 for both projects, then design a comparative report structure in Phase 5, adding "Design Decision Comparison" and "Selection Suggestions" to skeleton constraints.
 
-## 输出要求
+## Output Requirements
 
-1. 最终报告为单一 markdown 文件：`$WORK_DIR/ANALYSIS_REPORT.md`
-2. 大量使用 Mermaid 图表展示架构、流程、数据流
-3. 面向需要理解业务架构的开发者
-4. 亮点和问题的评价思维框架参考 [analysis-guide.md](references/analysis-guide.md)
-5. 分析哲学和深度标准参考 [analysis-guide.md](references/analysis-guide.md)
+1.  Final report is a single markdown file: `$WORK_DIR/ANALYSIS_REPORT.md`.
+2.  Extensive use of Mermaid charts to show architecture, flow, and data flow.
+3.  Aimed at developers who need to understand business architecture.
+4.  Refer to [analysis-guide.md](references/analysis-guide.md) for evaluative thinking frameworks regarding highlights and issues.
+5.  Refer to [analysis-guide.md](references/analysis-guide.md) for analysis philosophy and depth standards.
+```

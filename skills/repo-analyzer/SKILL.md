@@ -21,7 +21,7 @@ Perform deep analysis of open-source projects and generate professional architec
 
 ## Output Language
 
-Defaults to Chinese. If the user asks in another language, follow the user's language.
+Defaults to English. If the user asks in another language, follow the user's language.
 
 ## Core Principles
 

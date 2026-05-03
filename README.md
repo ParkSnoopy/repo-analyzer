@@ -6,6 +6,11 @@ Compatible with [Claude Code](https://claude.ai/claude-code), [Codex](https://gi
 
 **[中文文档](README.zh.md)**
 
+## Related Articles
+
+- [一键生成专业级分析报告：迭代20多轮的深度架构分析Skill，我决定开源了](https://mp.weixin.qq.com/s/sOPHFaNS8pIkhB4F-FysTQ)
+- [Claude Code 源码深度架构分析](https://mp.weixin.qq.com/s/GjZ-tFBVwfJwK11F1lP5TQ)
+
 ## Quick Install
 
 **npx (Recommended)**

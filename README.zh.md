@@ -6,6 +6,11 @@
 
 **[English Documentation](README.md)**
 
+## 相关文章
+
+- [一键生成专业级分析报告：迭代20多轮的深度架构分析Skill，我决定开源了](https://mp.weixin.qq.com/s/sOPHFaNS8pIkhB4F-FysTQ)
+- [Claude Code 源码深度架构分析](https://mp.weixin.qq.com/s/GjZ-tFBVwfJwK11F1lP5TQ)
+
 ## 快速安装
 
 **npx（推荐）**
